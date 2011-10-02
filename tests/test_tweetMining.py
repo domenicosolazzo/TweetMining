@@ -132,3 +132,14 @@ class TweetMiningTestCase(unittest.TestCase):
     # buildRetweetGraph
     def test_buildRetweetGraph_exists(self):
         self.assertTrue(callable(getattr(self.tweetMining, "buildRetweetGraph")))
+    def test_buildRetweetGraph_ReturnsADict(self):
+        actual = self.tweetMining.buildRetweetGraph(self.search['results'])
+        self.assertIsInstance(actual, dict)
+    def test_buildRetweetGraph_Dict_containsGraphKey(self):
+        actual = self.tweetMining.buildRetweetGraph(self.search['results'])
+        self.assertTrue('graph' in actual.keys())
+        self.assertIsNotNone(actual['graph'])
+    def test_buildRetweetGraph_RaisesAnExceptionWithWrongInput(self):
+        self.assertRaises(Exception ,self.tweetMining.buildRetweetGraph, 1)
+        self.assertRaises(Exception ,self.tweetMining.buildRetweetGraph, "1")
+        self.assertRaises(Exception ,self.tweetMining.buildRetweetGraph, {})

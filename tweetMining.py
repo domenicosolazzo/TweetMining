@@ -22,11 +22,21 @@ class TweetMining( object ):
         if not isinstance(tweet, (str, unicode)):
             raise Exception('Wrong Input')
         import re
-        patterns = re.compile(r" (RT|via) ((?:\b\W*@\w+)+)", re.IGNORECASE)
+        patterns = re.compile(r"(RT|via)((?:\b\W*@\w+)+)", re.IGNORECASE)
         return  [ source.strip() 
                   for tuple in patterns.findall(tweet)
                     for source in tuple
                         if source not in ("RT", "via")
                 ]
     def buildRetweetGraph(self, tweets):
-        pass
+        import networkx
+        graph = networkx.DiGraph()
+        if not isinstance(tweets, list):
+            raise Exception('Wrong Input')
+        for tweet in tweets:
+            rtSources = self._getRTSources(tweet['text'])
+            if not rtSources: continue
+            for source in rtSources:
+                graph.add_edge(source, tweet["from_user"], {"tweet_id" : tweet["id"]})
+        return {'graph':graph}
+
