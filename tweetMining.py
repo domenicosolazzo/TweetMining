@@ -18,3 +18,5 @@ class TweetMining( object ):
             raise Exception("Wrong Input.")
         import nltk
         return nltk.FreqDist(words)
+    def _getRTSources(self):
+        pass

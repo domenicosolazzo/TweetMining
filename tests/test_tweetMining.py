@@ -119,3 +119,6 @@ class TweetMiningTestCase(unittest.TestCase):
         words = self.tweetMining.words(self.search['results'])
         actual = self.tweetMining.freqDist(words)
         self.assertEquals(type(actual), nltk.probability.FreqDist)
+    # _get_rt_sources
+    def test_get_rt_sources_exists(self):
+        self.assertTrue(callable(getattr(self.tweetMining, "_getRTSources")))
