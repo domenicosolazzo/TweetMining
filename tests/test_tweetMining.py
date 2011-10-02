@@ -120,5 +120,15 @@ class TweetMiningTestCase(unittest.TestCase):
         actual = self.tweetMining.freqDist(words)
         self.assertEquals(type(actual), nltk.probability.FreqDist)
     # _get_rt_sources
-    def test_get_rt_sources_exists(self):
+    def test_getRTSources_exists(self):
         self.assertTrue(callable(getattr(self.tweetMining, "_getRTSources")))
+    def test_getRTSources_returnsAList(self):
+        actual = self.tweetMining._getRTSources('RT @user la la la')
+        self.assertIsInstance(actual, list)
+    def test_getRTSources_raisesAnExceptionWithWrongInput(self):
+        self.assertRaises(Exception, self.tweetMining._getRTSources, 1)
+        self.assertRaises(Exception, self.tweetMining._getRTSources, [])
+        self.assertRaises(Exception, self.tweetMining._getRTSources, {})
+    # buildRetweetGraph
+    def test_buildRetweetGraph_exists(self):
+        self.assertTrue(callable(getattr(self.tweetMining, "buildRetweetGraph")))

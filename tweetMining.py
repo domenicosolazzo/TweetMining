@@ -18,5 +18,15 @@ class TweetMining( object ):
             raise Exception("Wrong Input.")
         import nltk
         return nltk.FreqDist(words)
-    def _getRTSources(self):
+    def _getRTSources(self, tweet):
+        if not isinstance(tweet, (str, unicode)):
+            raise Exception('Wrong Input')
+        import re
+        patterns = re.compile(r" (RT|via) ((?:\b\W*@\w+)+)", re.IGNORECASE)
+        return  [ source.strip() 
+                  for tuple in patterns.findall(tweet)
+                    for source in tuple
+                        if source not in ("RT", "via")
+                ]
+    def buildRetweetGraph(self, tweets):
         pass
