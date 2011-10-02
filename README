@@ -1,7 +1,16 @@
 TweetMining - Domenico Solazzo
 Version: 0.1 
 Note: The library is still in development...
+=========================================================================================
+Dependencies:
+twitter 
+Using pypi: pip install twitter
 
+nltk
+Using pypi: pip install http://pypi.python.org/packages/source/n/nltk/nltk-2.0.1rc1.tar.gz
+
+
+=========================================================================================
 Data Fixtures:
 Add the data fixtures in tests/fixtures.
 
