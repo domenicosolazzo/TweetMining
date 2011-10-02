@@ -8,7 +8,7 @@ Add the data fixtures in tests/fixtures.
 search.json
 
 You can obtain a search.json using the following url:
-http://search.twitter.com/search?q='<query>'&rpp=5
+http://search.twitter.com/search.json?q=twitter&rpp=5
 
 trends.json
 You can obtain a trends.json using the following url:
