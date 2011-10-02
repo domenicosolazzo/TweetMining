@@ -1,5 +1,3 @@
-import twitter
-
 class TweetMining( object ):
     
     def trends(self):
