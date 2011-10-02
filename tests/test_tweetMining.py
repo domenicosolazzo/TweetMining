@@ -1,5 +1,6 @@
 import unittest
 from tweetMining import TweetMining
+import nltk
 
 class TweetMiningTestCase(unittest.TestCase):
     def setUp(self):
@@ -94,7 +95,27 @@ class TweetMiningTestCase(unittest.TestCase):
     # Words
     def test_words_exists(self):
         self.assertTrue(callable(getattr(self.tweetMining, "words")))
+    def test_words_raisesAnExceptionWithWrongInput(self):
+        self.assertRaises(Exception, self.tweetMining.words, 1)
+        self.assertRaises(Exception, self.tweetMining.words, "1")
+        self.assertRaises(Exception, self.tweetMining.words, (1,))
+        self.assertRaises(Exception, self.tweetMining.words, {1:1})
+    def test_words_acceptsAListAsInput(self):
+        self.assertIsInstance(self.tweetMining.words([]), list)
     def test_words_returnsAnArray(self):
         actual = self.tweetMining.words(self.search['results'])
         self.assertIsInstance(actual, list)
-    
+    # FreqDist
+    def test_freqDist_exists(self):
+        self.assertTrue(callable(getattr(self.tweetMining, "freqDist")))
+    def test_freqDist_raisesAnExceptionWithWrongInput(self):
+        self.assertRaises(Exception, self.tweetMining.freqDist, 1)
+        self.assertRaises(Exception, self.tweetMining.freqDist, "1")
+        self.assertRaises(Exception, self.tweetMining.freqDist, (1,))
+        self.assertRaises(Exception, self.tweetMining.freqDist, {1:1})
+    def test_freqDist_acceptsAListAsInput(self):
+        self.assertEquals(type(self.tweetMining.freqDist([])), nltk.probability.FreqDist)
+    def test_freqDist_returnsAnArray(self):
+        words = self.tweetMining.words(self.search['results'])
+        actual = self.tweetMining.freqDist(words)
+        self.assertEquals(type(actual), nltk.probability.FreqDist)
