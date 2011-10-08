@@ -1,17 +1,33 @@
 import unittest
-from tweetMining import TweetMining
+from tweetMining import TweetMining, TweetProxy, TestProxy, HttpProxy
 import nltk
 
 class TweetMiningTestCase(unittest.TestCase):
     def setUp(self):
-        self.tweetMining = TweetMining()
+        self.tweetMining = TweetMining(proxy='test')
         self.search = self.tweetMining.search(q="twitter")
+        self.userInfoResponse = self.tweetMining.userInfo(username="fakeusername")
     def tearDown(self):
         self.tweetMining = None
     def test_instanceIsNotNone(self):
         self.assertIsNotNone(self.tweetMining)
     def test_tweetMiningIsInstanceOf(self):
-        self.assertIsInstance(self.tweetMining, TweetMining) 
+        self.assertIsInstance(self.tweetMining, TweetMining)
+    # setProxy
+    def test_setProxy_exists(self):
+        self.assertTrue(callable(getattr(self.tweetMining, "setProxy"))) 
+    def test_setProxy_Raises_ExceptionWithWrongInput(self):
+        self.assertRaises(Exception, self.tweetMining.setProxy, 1)
+        self.assertRaises(Exception, self.tweetMining.setProxy, "wrong")
+    def test_setProxy_Returns_TweetProxyInstance(self):
+        actual = self.tweetMining.setProxy('test')
+        self.assertIsInstance(actual, TweetProxy)
+    def test_setProxy_Returns_TestProxyInstance(self):
+        actual = self.tweetMining.setProxy('test')
+        self.assertIsInstance(actual, TestProxy)
+    def test_setProxy_Returns_HttpProxyInstance(self):
+        actual = self.tweetMining.setProxy('http')
+        self.assertIsInstance(actual, HttpProxy)
     # Trends
     def test_Trends_exists(self):
         self.assertTrue(callable(getattr(self.tweetMining, "trends")))
@@ -143,3 +159,123 @@ class TweetMiningTestCase(unittest.TestCase):
         self.assertRaises(Exception ,self.tweetMining.buildRetweetGraph, 1)
         self.assertRaises(Exception ,self.tweetMining.buildRetweetGraph, "1")
         self.assertRaises(Exception ,self.tweetMining.buildRetweetGraph, {})
+    # userInfo
+    def test_userInfo_exists(self):
+        self.assertTrue(callable(getattr(self.tweetMining, "userInfo")))
+    def test_userInfo_ReturnsADict(self):
+        actual = self.userInfoResponse
+        self.assertIsInstance(actual, dict)
+    def test_userInfo_Dict_ContainsAProfile_Background_TileKey(self):
+        key = 'profile_background_tile'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, bool)
+    def test_userInfo_Dict_ContainsAProtectedKey(self):
+        key = 'protected'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, bool)
+    def test_userInfo_Dict_ContainsAShow_All_Inline_MediaKey(self):
+        key = 'show_all_inline_media'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, bool)
+    def test_userInfo_Dict_ContainsAListedCountKey(self):
+        key = 'listed_count'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, int)
+    def test_userInfo_Dict_ContainsAContributorsEnabledKey(self):
+        key = 'contributors_enabled'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, bool)
+    def test_userInfo_Dict_ContainsAProfile_Sidebar_fill_colorKey(self):
+        key = 'profile_sidebar_fill_color'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, unicode)
+    def test_userInfo_Dict_ContainsANameKey(self):
+        key = 'name'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, unicode)
+    def test_userInfo_Dict_Contains_VerifiedKey(self):
+        key = 'verified'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, bool)
+    def test_userInfo_Dict_Contains_LangKey(self):
+        key = 'lang'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, unicode)
+    def test_userInfo_Dict_Contains_DescriptionKey(self):
+        key = 'description'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, unicode)
+    def test_userInfo_Dict_Contains_StatusesCountKey(self):
+        key = 'statuses_count'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, int)
+    def test_userInfo_Dict_Contains_Profile_Image_Url(self):
+        key = 'profile_image_url'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, unicode)
+    def test_userInfo_Dict_Contains_StatusKey(self):
+        key = 'status'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, dict)
+    def test_userInfo_Dict_Contains_UrlKey(self):
+        key = 'url'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, unicode)
+    def test_userInfo_Dict_Contains_Screen_NameKey(self):
+        key = 'screen_name'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value,unicode)
+    def test_userInfo_Dict_Contains_Friends_CountKey(self):
+        key = 'friends_count'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, int)
+    def test_userInfo_Dict_Contains_Followers_CountKey(self):
+        key = 'followers_count'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, int)
+    def test_userInfo_Dict_Contains_Favourites_CountKey(self):
+        key = 'favourites_count'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, int)
+    def test_userInfo_Dict_Contains_IdKey(self):
+        key = 'id'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, int)
+    def test_userInfo_Dict_Contains_IdStrKey(self):
+        key = 'id_str'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, unicode)
+   # _getFactory
+    def test_userInfo_Dict_Contains_Friends_CountKey(self):
+        key = 'friends_count'
+        value = self.userInfoResponse.get(key)
+        self.assertTrue(key in self.userInfoResponse.keys())
+        self.assertIsInstance(value, int)
+    def test__getFactoryProxy_exists(self):
+        self.assertTrue(callable(getattr(self.tweetMining, "_getFactoryProxy")))
+    def test__getFactoryProxy_Raises_ExceptionWithWrongInput(self):
+        self.assertRaises(Exception, self.tweetMining._getFactoryProxy, "wrong") 
+        self.assertRaises(Exception, self.tweetMining._getFactoryProxy, 1)
+    def test__getFactoryProxy_Returns_TweetProxyInstance(self):
+        actual = self.tweetMining._getFactoryProxy('test')
+        self.assertIsInstance(actual, TweetProxy) 
