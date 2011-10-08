@@ -22,3 +22,7 @@ http://search.twitter.com/search.json?q=twitter&rpp=5
 trends.json
 You can obtain a trends.json using the following url:
 http://api.twitter.com/1/trends.json
+
+user.json
+You can obtain a user.json using the following url:
+http://api.twitter.com/1/users/show.json?screen_name=<screen_name>
