@@ -64,6 +64,8 @@ class TweetProxy():
         raise NotImplementedError("Not Implemented Yet")
     def search(self, q, rpp=10, firstPage=1, lastPage=2):
         raise NotImplementedError("Not Implemented Yet")
+    def login(self):
+        raise NotImplementedError("Not Implemented Yet")
 class TestProxy(TweetProxy):
     def trends(self):
         return json.loads(open('tests/fixtures/trends.json').read())
@@ -71,7 +73,8 @@ class TestProxy(TweetProxy):
         return json.loads(open('tests/fixtures/search.json').read())
     def userInfo(self, username):
         return json.loads(open('tests/fixtures/user.json').read())
-        
+    def login(self):
+        return {'data':{}, 'error':None}  
 
 class HttpProxy(TweetProxy):
     def __init__(self):
